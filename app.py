@@ -1,15 +1,13 @@
 import streamlit as st
 from PIL import Image
 
-# ---------- Funciones "dummy" que luego reemplazarás con tu modelo ----------
-
 def interpretar_linea_sismica(imagen, fase, polaridad):
     return (
         f"Interpretación sísmica preliminar:\n\n"
         f"- Fase: {fase}\n"
         f"- Polaridad: {polaridad}\n"
         f"- Reflectores continuos en el sector central.\n"
-        f"- Variación de amplitudes hacia los flancos sugieren cambios de facies.\n"
+        f"- Variación de amplitudes hacia los flancos sugiere cambios de facies.\n"
         f"- Dos unidades sísmicas separadas por posible discordancia."
     )
 
@@ -21,8 +19,6 @@ def indicar_anomalias_hidrocarburos(imagen, fase, polaridad):
         "- Recomendación: confirmar con atributos AVO y pozos."
     )
 
-# ------------------- INTERFAZ DE GEOPETROIA -----------------------
-
 st.set_page_config(page_title="GeoPetroIA", page_icon="🛢️")
 
 st.title("🛢️ GeoPetroIA")
@@ -32,9 +28,11 @@ st.markdown("---")
 
 opcion = st.radio(
     "Seleccione el tipo de análisis:",
-    ["Interpretación de línea sísmica",
-     "Indicar anomalías de hidrocarburos",
-     "Ambos (interpretación + anomalías)"]
+    [
+        "Interpretación de línea sísmica",
+        "Indicar anomalías de hidrocarburos",
+        "Ambos (interpretación + anomalías)"
+    ]
 )
 
 st.markdown("### 1️⃣ Cargar la imagen sísmica")
@@ -61,10 +59,17 @@ if st.button("Analizar"):
         st.markdown("---")
         st.subheader("Resultados de GeoPetroIA")
 
-        # Siempre primero interpretación
-        interpretacion = interpretar_linea_sismica(imagen, fase, polaridad)
         st.markdown("### 📌 Interpretación sísmica")
+        interpretacion = interpretar_linea_sismica(imagen, fase, polaridad)
         st.write(interpretacion)
 
-        # Luego anomalías (según la opción)
-        if o
+        if opcion in [
+            "Indicar anomalías de hidrocarburos",
+            "Ambos (interpretación + anomalías)"
+        ]:
+            st.markdown("### 💡 Anomalías de hidrocarburos")
+            anomalias = indicar_anomalias_hidrocarburos(imagen, fase, polaridad)
+            st.write(anomalias)
+
+        st.success("Análisis completado ✔️")
+
